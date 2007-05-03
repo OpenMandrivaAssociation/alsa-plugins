@@ -1,4 +1,4 @@
-%define beta rc3
+%define beta rc4
 %if %beta
 %define fname %name-%{version}%beta
 %else
