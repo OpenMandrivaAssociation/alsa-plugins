@@ -11,7 +11,7 @@ Version: 1.0.14
 %if %beta
 Release: %mkrel 0.%{beta}.1
 %else
-Release: %mkrel 4
+Release: %mkrel 6
 %endif
 Source:  ftp://ftp.alsa-project.org/pub/utils/%fname.tar.bz2
 License: GPL
@@ -26,6 +26,9 @@ BuildRequires: libalsa-devel >= %version
 BuildRequires: libpulseaudio-devel >= 0.8
 BuildRequires: ncurses-devel
 BuildRequires: jackit-devel
+BuildRequires: ffmpeg-devel
+BuildRequires: speex-devel
+
 %description
 Advanced Linux Sound Architecture (ALSA) utilities. Modularized architecture
 with support for a large range of ISA and PCI cards. Fully compatible with
