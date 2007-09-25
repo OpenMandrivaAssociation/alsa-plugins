@@ -11,9 +11,10 @@ Version: 1.0.14
 %if %beta
 Release: %mkrel 0.%{beta}.1
 %else
-Release: %mkrel 6
+Release: %mkrel 7
 %endif
 Source:  ftp://ftp.alsa-project.org/pub/utils/%fname.tar.bz2
+Patch0:  1.0.14-buffer-attr.patch
 License: GPL
 BuildRoot: %_tmppath/%name-buildroot
 Group: Sound
@@ -38,6 +39,7 @@ This is the plugins package, which allows you to manipulate ALSA settings.
 
 %prep
 %setup -q -n %fname
+%patch0 -p1 -b .buffer_attr
 
 %build
 %configure2_5x
