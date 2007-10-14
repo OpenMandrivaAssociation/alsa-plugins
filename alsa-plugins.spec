@@ -12,7 +12,7 @@ Summary: Advanced Linux Sound Architecture (ALSA) plugins
 Name:    %name
 Version: 1.0.15
 %if %beta
-Release: %mkrel 0.%{beta}.2
+Release: %mkrel 0.%{beta}.3
 %else
 Release: %mkrel 1
 %endif
@@ -57,7 +57,6 @@ This is the plugins package, which allows you to manipulate ALSA settings.
 %package doc
 Summary: Advanced Linux Sound Architecture (ALSA) plugins
 Group: Sound
-Provides: libalsa-plugins = %{version}-%{release}
 
 %description doc
 Documentation for %{name}
