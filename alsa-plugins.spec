@@ -14,7 +14,7 @@ Version: 1.0.15
 %if %beta
 Release: %mkrel 0.%{beta}.3
 %else
-Release: %mkrel 2
+Release: %mkrel 3
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/utils/%fname.tar.bz2
 Patch0:  1.0.14-buffer-attr.patch
@@ -112,10 +112,12 @@ make all
 rm -rf $RPM_BUILD_ROOT
 %makeinstall_std mkdir_p="mkdir -p"
 
-install -d ${RPM_BUILD_ROOT}%{_sysconfdir}/alsa/pcm
+install -d ${RPM_BUILD_ROOT}%{_sysconfdir}/alsa
+
+install -d ${RPM_BUILD_ROOT}%{_datadir}/alsa/pcm
 install -m 644 %SOURCE1 %SOURCE2 \
                %SOURCE4 %SOURCE5 %SOURCE6 \
-                   ${RPM_BUILD_ROOT}%{_sysconfdir}/alsa/pcm
+                   ${RPM_BUILD_ROOT}%{_datadir}/alsa/pcm
 install -m 644 %SOURCE7 \
                    ${RPM_BUILD_ROOT}%{_sysconfdir}/alsa
 
@@ -130,22 +132,22 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %exclude %{_libdir}/alsa-lib/*_pulse.so
 %exclude %{_libdir}/alsa-lib/*_jack.so
-%config(noreplace) %{_sysconfdir}/alsa/pcm/samplerate.conf
-%config(noreplace) %{_sysconfdir}/alsa/pcm/upmix.conf
-%config(noreplace) %{_sysconfdir}/alsa/pcm/vdownmix.conf
+%{_datadir}/alsa/pcm/samplerate.conf
+%{_datadir}/alsa/pcm/upmix.conf
+%{_datadir}/alsa/pcm/vdownmix.conf
 %_libdir/alsa-lib/*
 
 
 %files -n %{libname}-pulseaudio
 %defattr(-,root,root,-)
 %doc doc/README-pulse
-%config(noreplace) %{_sysconfdir}/alsa/pcm/pulseaudio.conf
 %config(noreplace) %{_sysconfdir}/alsa/pulse-default.conf
+%{_datadir}/alsa/pcm/pulseaudio.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_pulse.so
 %{_libdir}/alsa-lib/libasound_module_ctl_pulse.so
 
 %files -n %{libname}-jack
 %defattr(-,root,root,-)
 %doc doc/README-jack
-%config(noreplace) %{_sysconfdir}/alsa/pcm/jack.conf
+%{_datadir}/alsa/pcm/jack.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_jack.so
