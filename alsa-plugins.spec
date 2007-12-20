@@ -27,6 +27,7 @@ Source6: vdownmix.conf
 Source7: pulse-default.conf
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License: GPLv2+ and LGPLv2+
+BuildRoot: %_tmppath/%name-buildroot
 Group: Sound
 Url:   http://www.alsa-project.org
 
