@@ -14,10 +14,16 @@ Version: 1.0.15
 %if %beta
 Release: %mkrel 0.%{beta}.3
 %else
-Release: %mkrel 3
+Release: %mkrel 4
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/utils/%fname.tar.bz2
 Patch0:  1.0.14-buffer-attr.patch
+# (fc) 1.0.15-4mdv fix assert in pulse plugin (Alsa bug #3470) (HG)
+Patch1:  alsa-plugins-1.0.15-fixpulseassert.patch
+# (fc) 1.0.15-4mdv add minmax condition for pulse plugin (Alsa bug #2601) (HG)
+Patch2:  alsa-plugins-1.0.15-pulse-minmax.patch
+# (fc) 1.0.15-4mdv report XRUN state back to application (HG) (Fedora)
+Patch3:  1.0.14-state-xrun.patch
 Source1: jack.conf
 Source2: pulseaudio.conf
 Source3: pcm-oss.conf
@@ -103,6 +109,9 @@ This plugin provides the PCM type "jack"
 %prep
 %setup -q -n %fname
 %patch0 -p1 -b .buffer_attr
+%patch1 -p1 -b .fixpulseassert
+%patch2 -p1 -b .minmax-pulse
+%patch3 -p1 -b .state-xrun
 
 %build
 %configure2_5x
