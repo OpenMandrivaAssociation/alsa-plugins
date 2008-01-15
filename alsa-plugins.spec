@@ -14,7 +14,7 @@ Version: 1.0.15
 %if %beta
 Release: %mkrel 0.%{beta}.3
 %else
-Release: %mkrel 4
+Release: %mkrel 5
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/utils/%fname.tar.bz2
 Patch0:  1.0.14-buffer-attr.patch
@@ -57,7 +57,6 @@ Summary: Advanced Linux Sound Architecture (ALSA) plugins
 Group: Sound
 Provides: %{name} = %{version}-%{release}
 Obsoletes: %{name} < %{version}-%{release}
-Requires: kernel >= 2.4.18
 Requires: libalsa >= %version
 Requires: %{name}-doc
 
