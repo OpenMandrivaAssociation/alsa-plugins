@@ -12,7 +12,7 @@ Summary: Advanced Linux Sound Architecture (ALSA) plugins
 Name:    %name
 Version: 1.0.16
 %if %beta
-Release: %mkrel 0.%{beta}.1
+Release: %mkrel 0.%{beta}.2
 %else
 Release: %mkrel 5
 %endif
@@ -81,7 +81,6 @@ sound across a network. There are two plugins in the suite, one for PCM and
 one for mixer control.
 
 %package -n %{libname}-jack
-Requires:       jack-audio-connection-kit
 Summary:        Jack PCM output plugin for ALSA
 Group:          Sound
 License:        LGPLv2+
