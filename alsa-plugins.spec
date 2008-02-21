@@ -14,7 +14,7 @@ Version: 1.0.16
 %if %beta
 Release: %mkrel 0.%{beta}.2
 %else
-Release: %mkrel 1
+Release: %mkrel 2
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/utils/%fname.tar.bz2
 Source1: jack.conf
@@ -24,6 +24,7 @@ Source4: samplerate.conf
 Source5: upmix.conf
 Source6: vdownmix.conf
 Source7: pulse-default.conf
+Patch0: alsa-plugins-1.0.16-2601-pulse.patch
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License: GPLv2+ and LGPLv2+
 BuildRoot: %_tmppath/%name-buildroot
@@ -99,6 +100,7 @@ This plugin provides the PCM type "jack"
 
 %prep
 %setup -q -n %fname
+%patch0 -p1 -b .pulse
 
 %build
 %configure2_5x
