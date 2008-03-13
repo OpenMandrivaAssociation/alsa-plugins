@@ -14,7 +14,7 @@ Version: 1.0.16
 %if %beta
 Release: %mkrel 0.%{beta}.2
 %else
-Release: %mkrel 5
+Release: %mkrel 6
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/utils/%fname.tar.bz2
 Source1: jack.conf
