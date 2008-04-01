@@ -14,7 +14,7 @@ Version: 1.0.16
 %if %beta
 Release: %mkrel 0.%{beta}.2
 %else
-Release: %mkrel 6
+Release: %mkrel 7
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/utils/%fname.tar.bz2
 Source1: jack.conf
@@ -74,12 +74,27 @@ Group: Sound
 %description doc
 Documentation for %{name}
 
+# (tv) needed for biarch:
+%package        pulse-config
+Summary:        Alsa to PulseAudio backend
+Group:          Sound
+License:        LGPLv2+
+Provides:	%{name}-pulseaudio = %{version}-%{release}
+Conflicts:	%{libname}-pulseaudio  <= 1.0.16-6mdv2008.1
+%ifarch %ix86
+Conflicts:	lib64alsa-plugins-pulseaudio <= 1.0.16-6mdv2008.1
+%endif
+
+%description pulse-config
+This package contains configuration files for the pulse ALSA plugin.
+
 %package -n %{libname}-pulseaudio
 Summary:        Alsa to PulseAudio backend
 Group:          Sound
 License:        LGPLv2+
 Provides:	%{name}-pulseaudio = %{version}-%{release}
 Conflicts:	%{libname} < 1.0.15-2mdv
+Requires:	 %name-pulse-config
 
 %description -n %{libname}-pulseaudio
 This plugin allows any program that uses the ALSA API to access a PulseAudio
@@ -145,11 +160,14 @@ rm -rf $RPM_BUILD_ROOT
 %_libdir/alsa-lib/*
 
 
+%files pulse-config
+%defattr(-,root,root)
+%config(noreplace) %{_sysconfdir}/alsa/pulse-default.conf
+%{_datadir}/alsa/pcm/pulseaudio.conf
+
 %files -n %{libname}-pulseaudio
 %defattr(-,root,root,-)
 %doc doc/README-pulse
-%config(noreplace) %{_sysconfdir}/alsa/pulse-default.conf
-%{_datadir}/alsa/pcm/pulseaudio.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_pulse.so
 %{_libdir}/alsa-lib/libasound_module_ctl_pulse.so
 
