@@ -14,7 +14,7 @@ Version: 1.0.16
 %if %beta
 Release: %mkrel 0.%{beta}.2
 %else
-Release: %mkrel 7
+Release: %mkrel 8
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/utils/%fname.tar.bz2
 Source1: jack.conf
@@ -79,7 +79,6 @@ Documentation for %{name}
 Summary:        Alsa to PulseAudio backend
 Group:          Sound
 License:        LGPLv2+
-Provides:	%{name}-pulseaudio = %{version}-%{release}
 Conflicts:	%{libname}-pulseaudio  <= 1.0.16-6mdv2008.1
 %ifarch %ix86
 Conflicts:	lib64alsa-plugins-pulseaudio <= 1.0.16-6mdv2008.1
