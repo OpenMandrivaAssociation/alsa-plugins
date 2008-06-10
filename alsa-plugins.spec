@@ -14,9 +14,9 @@ Version: 1.0.16
 %if %beta
 Release: %mkrel 0.%{beta}.2
 %else
-Release: %mkrel 8
+Release: %mkrel 9
 %endif
-Source0:  ftp://ftp.alsa-project.org/pub/utils/%fname.tar.bz2
+Source0:  ftp://ftp.alsa-project.org/pub/plugins/%fname.tar.bz2
 Source1: jack.conf
 Source2: pulseaudio.conf
 Source3: pcm-oss.conf
