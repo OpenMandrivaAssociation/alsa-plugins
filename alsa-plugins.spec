@@ -1,5 +1,5 @@
 %define name alsa-plugins
-%define beta 0
+%define beta rc2
 %if %beta
 %define fname %name-%{version}%beta
 %else
@@ -10,11 +10,11 @@
 
 Summary: Advanced Linux Sound Architecture (ALSA) plugins
 Name:    %name
-Version: 1.0.16
+Version: 1.0.17
 %if %beta
-Release: %mkrel 0.%{beta}.2
+Release: %mkrel 0.%{beta}.1
 %else
-Release: %mkrel 9
+Release: %mkrel 1
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/plugins/%fname.tar.bz2
 Source1: jack.conf
