@@ -26,11 +26,6 @@ Source6: vdownmix.conf
 Source7: pulse-default.conf
 # (cg) Patch from ALSA bug #2601
 Patch0: alsa-plugins-1.0.16-2601-pulse.patch
-# (cg) Patch from ALSA bug #3834 to enable hints (used by phonon)
-Patch1: alsa-plugins-1.0.16-3834-pulse-hints.patch
-# (tv) official patches from upstream repository to fix pulse asserts resulting in unexpected crashes:
-Patch2: alsa-lib-fix-pulse-assert.diff
-Patch3: alsa-lib-fix-pulse-assert2.diff
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License: GPLv2+ and LGPLv2+
 BuildRoot: %_tmppath/%name-buildroot
@@ -121,9 +116,6 @@ This plugin provides the PCM type "jack"
 %prep
 %setup -q -n %fname
 %patch0 -p1 -b .pulse
-%patch1 -p1 -b .pulse-hints
-%patch2 -p1 -b .fix-pulse-assert
-%patch3 -p1 -b .fix-pulse-assert2
 
 %build
 %configure2_5x
