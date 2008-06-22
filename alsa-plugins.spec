@@ -12,7 +12,7 @@ Summary: Advanced Linux Sound Architecture (ALSA) plugins
 Name:    %name
 Version: 1.0.17
 %if %beta
-Release: %mkrel 0.%{beta}.1
+Release: %mkrel 0.%{beta}.2
 %else
 Release: %mkrel 1
 %endif
@@ -24,8 +24,10 @@ Source4: samplerate.conf
 Source5: upmix.conf
 Source6: vdownmix.conf
 Source7: pulse-default.conf
-# (cg) Patch from ALSA bug #2601
-Patch0: alsa-plugins-1.0.16-2601-pulse.patch
+# (cg) PulseAudio patch from ALSA bug #3942
+Patch0: alsa-pulse-maxlenght-fix.patch
+# (cg) PulseAudio patch from ALSA bug #3944
+Patch1: alsa-pulse-sw_params.patch
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License: GPLv2+ and LGPLv2+
 BuildRoot: %_tmppath/%name-buildroot
@@ -115,7 +117,8 @@ This plugin provides the PCM type "jack"
 
 %prep
 %setup -q -n %fname
-%patch0 -p1 -b .pulse
+%patch0 -p1 -b .maxlen
+%patch1 -p1 -b .swparams
 
 %build
 %configure2_5x
