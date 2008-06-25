@@ -12,7 +12,7 @@ Summary: Advanced Linux Sound Architecture (ALSA) plugins
 Name:    %name
 Version: 1.0.17
 %if %beta
-Release: %mkrel 0.%{beta}.2
+Release: %mkrel 0.%{beta}.3
 %else
 Release: %mkrel 1
 %endif
@@ -118,7 +118,8 @@ This plugin provides the PCM type "jack"
 %prep
 %setup -q -n %fname
 %patch0 -p1 -b .maxlen
-%patch1 -p1 -b .swparams
+# (cg). Whoops. This breaks everything. Disabling for now.
+#patch1 -p1 -b .swparams
 
 %build
 %configure2_5x
