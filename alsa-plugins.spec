@@ -1,5 +1,5 @@
 %define name alsa-plugins
-%define beta rc2
+%define beta 0
 %if %beta
 %define fname %name-%{version}%beta
 %else
