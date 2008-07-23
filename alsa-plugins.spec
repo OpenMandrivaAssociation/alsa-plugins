@@ -14,7 +14,7 @@ Version: 1.0.17
 %if %beta
 Release: %mkrel 0.%{beta}.3
 %else
-Release: %mkrel 1
+Release: %mkrel 2
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/plugins/%fname.tar.bz2
 Source1: jack.conf
@@ -28,6 +28,9 @@ Source7: pulse-default.conf
 Patch0: alsa-pulse-maxlenght-fix.patch
 # (cg) PulseAudio patch from ALSA bug #3944
 Patch1: alsa-pulse-sw_params.patch
+# (cg) Upstream fixes
+Patch101: 0001-pulse-Returns-errors-instead-of-assert.patch
+Patch102: 0002-send-both-an-uncork-and-a-trigger-in-_start.patch
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License: GPLv2+ and LGPLv2+
 BuildRoot: %_tmppath/%name-buildroot
@@ -120,6 +123,8 @@ This plugin provides the PCM type "jack"
 %patch0 -p1 -b .maxlen
 # (cg). Whoops. This breaks everything. Disabling for now.
 #patch1 -p1 -b .swparams
+%patch101 -p1
+%patch102 -p1
 
 %build
 %configure2_5x
