@@ -14,7 +14,7 @@ Summary: Advanced Linux Sound Architecture (ALSA) plugins
 Name:    %name
 Version: %version
 %if %beta
-Release: %mkrel 0.%{beta}.2
+Release: %mkrel 0.%{beta}.3
 %else
 Release: %mkrel 1
 %endif
@@ -124,20 +124,20 @@ This plugin provides the PCM type "jack"
 make all
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %makeinstall_std mkdir_p="mkdir -p"
 
-install -d ${RPM_BUILD_ROOT}%{_sysconfdir}/alsa
+install -d %{buildroot}%{_sysconfdir}/alsa
 
-install -d ${RPM_BUILD_ROOT}%{_datadir}/alsa/pcm
+install -d %{buildroot}%{_datadir}/alsa/pcm
 install -m 644 %SOURCE1 %SOURCE2 \
                %SOURCE4 %SOURCE5 %SOURCE6 \
-                   ${RPM_BUILD_ROOT}%{_datadir}/alsa/pcm
+                   %{buildroot}%{_datadir}/alsa/pcm
 install -m 644 %SOURCE7 \
-                   ${RPM_BUILD_ROOT}%{_sysconfdir}/alsa
+                   %{buildroot}%{_sysconfdir}/alsa
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files doc
 %defattr(-,root,root)
@@ -163,6 +163,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/README-pulse
 %{_libdir}/alsa-lib/libasound_module_pcm_pulse.so
 %{_libdir}/alsa-lib/libasound_module_ctl_pulse.so
+%{_libdir}/alsa-lib/libasound_module_conf_pulse.so
 
 %files -n %{libname}-jack
 %defattr(-,root,root,-)
