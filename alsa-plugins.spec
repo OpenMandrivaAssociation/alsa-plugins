@@ -90,6 +90,7 @@ Group:          Sound
 License:        LGPLv2+
 Provides:	%{name}-pulseaudio = %{version}-%{release}
 Conflicts:	%{libname} < 1.0.15-2mdv
+Conflicts:	%{name} < 1.0.14-8mdv
 Requires:	 %name-pulse-config
 
 %description -n %{libname}-pulseaudio
