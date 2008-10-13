@@ -14,7 +14,7 @@ Summary: Advanced Linux Sound Architecture (ALSA) plugins
 Name:    %name
 Version: %version
 %if %beta
-Release: %mkrel 0.%{beta}.3
+Release: %mkrel 0.%{beta}.4
 %else
 Release: %mkrel 1
 %endif
