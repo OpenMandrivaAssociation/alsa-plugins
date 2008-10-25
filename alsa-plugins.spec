@@ -14,7 +14,7 @@ Summary: Advanced Linux Sound Architecture (ALSA) plugins
 Name:    %name
 Version: %version
 %if %beta
-Release: %mkrel 0.%{beta}.4
+Release: %mkrel 0.%{beta}.5
 %else
 Release: %mkrel 1
 %endif
@@ -27,6 +27,7 @@ Source5: upmix.conf
 Source6: vdownmix.conf
 Source7: pulse-default.conf
 Patch0: pulse-mainloop.patch
+Patch1: pulse-record.patch
 
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License: GPLv2+ and LGPLv2+
@@ -119,6 +120,7 @@ This plugin provides the PCM type "jack"
 %prep
 %setup -q -n %fname
 %patch0 -p1 -b .pulse-mainloop
+%patch1 -p1 -b .pulse-record
 
 %build
 %configure2_5x
