@@ -1,5 +1,5 @@
 %define name alsa-plugins
-%define version 1.0.19
+%define version 1.0.20
 %define alibversion %version
 %define beta 0
 %if %beta
