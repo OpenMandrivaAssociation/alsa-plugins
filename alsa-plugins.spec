@@ -16,7 +16,7 @@ Version: %version
 %if %beta
 Release: %mkrel 0.%{beta}.1
 %else
-Release: %mkrel 1
+Release: %mkrel 2 
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/plugins/%fname.tar.bz2
 Source1: jack.conf
