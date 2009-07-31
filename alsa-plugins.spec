@@ -16,7 +16,7 @@ Version: %version
 %if %beta
 Release: %mkrel 0.%{beta}.1
 %else
-Release: %mkrel 2 
+Release: %mkrel 3
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/plugins/%fname.tar.bz2
 Source1: jack.conf
@@ -26,6 +26,13 @@ Source4: samplerate.conf
 Source5: upmix.conf
 Source6: vdownmix.conf
 Source7: pulse-default.conf
+
+Patch0001: 0001-alsa-plugins-pulse-Implement-pause.patch
+Patch0002: 0002-pulse-get-rid-of-a-number-of-asserts.patch
+Patch0003: 0003-pulse-use-PA_CONTEXT_IS_GOOD-where-applicable.patch
+Patch0004: 0004-pulse-unify-destruction-of-snd_pulse_t.patch
+Patch0005: 0005-pulse-call-pa_threaded_mainloop_wait-to-handle-spurious-wakeups.patch
+Patch0006: 0006-pulse-overzeolous-assert-removal.patch
 
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License: GPLv2+ and LGPLv2+
@@ -117,8 +124,10 @@ This plugin provides the PCM type "jack"
 
 %prep
 %setup -q -n %fname
+%apply_patches
 
 %build
+libtoolize --copy --force
 %configure2_5x
 make all
 
