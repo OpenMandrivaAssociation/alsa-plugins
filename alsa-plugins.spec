@@ -16,7 +16,7 @@ Version: %version
 %if %beta
 Release: %mkrel 0.%{beta}.1
 %else
-Release: %mkrel 3
+Release: %mkrel 4
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/plugins/%fname.tar.bz2
 Source1: jack.conf
@@ -28,11 +28,16 @@ Source6: vdownmix.conf
 Source7: pulse-default.conf
 
 Patch0001: 0001-alsa-plugins-pulse-Implement-pause.patch
-Patch0002: 0002-pulse-get-rid-of-a-number-of-asserts.patch
+Patch0002: 0002-pulse-get-rid-of-a-number-of-assert-s.patch
 Patch0003: 0003-pulse-use-PA_CONTEXT_IS_GOOD-where-applicable.patch
 Patch0004: 0004-pulse-unify-destruction-of-snd_pulse_t.patch
-Patch0005: 0005-pulse-call-pa_threaded_mainloop_wait-to-handle-spurious-wakeups.patch
-Patch0006: 0006-pulse-overzeolous-assert-removal.patch
+Patch0005: 0005-pulse-call-pa_threaded_mainloop_wait-to-handle-spuri.patch
+Patch0006: 0006-pulse-replace-manual-mainloop-by-pa_mainloop_iterate.patch
+Patch0007: 0007-pulse-move-a-couple-of-PCM-related-functions-from-pu.patch
+Patch0008: 0008-pulse-get-rid-of-redundant-state-variable.patch
+Patch0009: 0009-pulse-unify-stream-context-state-checks.patch
+Patch0010: 0010-pulse-rework-object-destruction-paths-a-bit.patch
+Patch0011: 0011-pulse-immediately-trigger-EIO-when-connection-is-dro.patch
 
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License: GPLv2+ and LGPLv2+
