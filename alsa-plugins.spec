@@ -16,7 +16,7 @@ Version: %version
 %if %beta
 Release: %mkrel 0.%{beta}.1
 %else
-Release: %mkrel 4
+Release: %mkrel 5
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/plugins/%fname.tar.bz2
 Source1: jack.conf
@@ -84,16 +84,27 @@ Documentation for %{name}
 
 # (tv) needed for biarch:
 %package        pulse-config
-Summary:        Alsa to PulseAudio backend
+Summary:        Alsa to PulseAudio backend configuration
 Group:          Sound
 License:        LGPLv2+
 Conflicts:	%{libname}-pulseaudio  <= 1.0.16-6mdv2008.1
 %ifarch %ix86
 Conflicts:	lib64alsa-plugins-pulseaudio <= 1.0.16-6mdv2008.1
 %endif
+# (cg) For upgrading from old configuration system
+Requires(post): libalsa-data >= 1.0.20-2
+Requires(post): update-alternatives
 
 %description pulse-config
 This package contains configuration files for the pulse ALSA plugin.
+
+%post pulse-config
+# (cg) Check to see if the user has disabled pulse in the old style setup.
+if [ -f %{_sysconfdir}/alsa/pulse-default.conf ]; then
+  if grep "^#DRAKSOUND- " %{_sysconfdir}/alsa/pulse-default.conf 2>/dev/null >/dev/null; then
+    update-alternatives --set soundprofile /etc/sound/profiles/alsa
+  fi
+fi
 
 %package -n %{libname}-pulseaudio
 Summary:        Alsa to PulseAudio backend
@@ -146,8 +157,11 @@ install -d %{buildroot}%{_datadir}/alsa/pcm
 install -m 644 %SOURCE1 %SOURCE2 \
                %SOURCE4 %SOURCE5 %SOURCE6 \
                    %{buildroot}%{_datadir}/alsa/pcm
+
+# (cg) Include a configuration for when pulse is active
+install -d  %{buildroot}%{_sysconfdir}/sound/profiles/pulse
 install -m 644 %SOURCE7 \
-                   %{buildroot}%{_sysconfdir}/alsa
+                   %{buildroot}%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
 
 %clean
 rm -rf %{buildroot}
@@ -168,7 +182,7 @@ rm -rf %{buildroot}
 
 %files pulse-config
 %defattr(-,root,root)
-%config(noreplace) %{_sysconfdir}/alsa/pulse-default.conf
+%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
 %{_datadir}/alsa/pcm/pulseaudio.conf
 
 %files -n %{libname}-pulseaudio
