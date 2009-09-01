@@ -131,7 +131,6 @@ This plugin provides the PCM type "jack"
 %apply_patches
 
 %build
-libtoolize --copy --force
 %configure2_5x
 make all
 
