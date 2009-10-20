@@ -16,7 +16,7 @@ Version: %version
 %if %beta
 Release: %mkrel 0.%{beta}.1
 %else
-Release: %mkrel 1
+Release: %mkrel 2
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/plugins/%fname.tar.bz2
 Source1: jack.conf
@@ -102,6 +102,11 @@ Provides:	%{name}-pulseaudio = %{version}-%{release}
 Conflicts:	%{libname} < 1.0.15-2mdv
 Conflicts:	%{name} < 1.0.14-8mdv
 Requires:	 %name-pulse-config
+%ifarch x86_64
+# (cg) Suggest the 32 bit plugin on 64 bits to ensure compatibility
+#      with (typically closed source) 32 bit apps.
+Suggests: lib%{name}-pulseaudio
+%endif
 
 %description -n %{libname}-pulseaudio
 This plugin allows any program that uses the ALSA API to access a PulseAudio
