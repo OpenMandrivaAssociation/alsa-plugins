@@ -1,5 +1,5 @@
 %define name alsa-plugins
-%define version 1.0.21
+%define version 1.0.22
 %define alibversion %version
 %define beta 0
 %if %beta
@@ -16,7 +16,7 @@ Version: %version
 %if %beta
 Release: %mkrel 0.%{beta}.1
 %else
-Release: %mkrel 3
+Release: %mkrel 1
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/plugins/%fname.tar.bz2
 Source1: jack.conf
@@ -26,9 +26,6 @@ Source4: samplerate.conf
 Source5: upmix.conf
 Source6: vdownmix.conf
 Source7: pulse-default.conf
-
-Patch0: 0001-a52-fix-5.1-channel-order-with-recent-libavcodec.patch
-Patch1: 0002-a52-set-channel-layout-with-recent-libavcodec.patch
 
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License: GPLv2+ and LGPLv2+
@@ -140,7 +137,7 @@ This plugin provides the PCM type "jack"
 
 %build
 %configure2_5x
-make all
+%make
 
 %install
 rm -rf %{buildroot}
