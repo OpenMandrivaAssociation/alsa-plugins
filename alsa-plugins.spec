@@ -1,5 +1,5 @@
 %define name alsa-plugins
-%define version 1.0.23
+%define version 1.0.24
 %define alibversion %version
 %define beta 0
 %if %beta
@@ -16,7 +16,7 @@ Version: %version
 %if %beta
 Release: %mkrel 0.%{beta}.2
 %else
-Release: %mkrel 3
+Release: %mkrel 1
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/plugins/%fname.tar.bz2
 Source1: jack.conf
