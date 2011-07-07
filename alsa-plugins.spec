@@ -1,5 +1,4 @@
-%define name alsa-plugins
-%define version 1.0.24
+
 %define alibversion %version
 %define beta 0
 %if %beta
@@ -11,8 +10,8 @@
 %define libname %mklibname %name
 
 Summary: Advanced Linux Sound Architecture (ALSA) plugins
-Name:    %name
-Version: %version
+Name:    alsa-plugins
+Version: 1.0.24
 %if %beta
 Release: %mkrel 0.%{beta}.2
 %else
@@ -29,9 +28,9 @@ Source7: pulse-default.conf
 
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License: GPLv2+ and LGPLv2+
-BuildRoot: %_tmppath/%name-buildroot
-Group: Sound
-Url:   http://www.alsa-project.org
+BuildRoot: 	%_tmppath/%name-%version-%release-buildroot
+Group:		Sound
+URL:		http://www.alsa-project.org
 
 BuildRequires: kernel-headers >= 2.4.0
 BuildRequires: libalsa-devel >= %alibversion
@@ -49,12 +48,11 @@ OSS/Lite (kernel sound drivers), but contains many enhanced features.
 This is the plugins package, which allows you to manipulate ALSA settings.
 
 %package -n %{libname}
-Summary: Advanced Linux Sound Architecture (ALSA) plugins
-Group: Sound
-Provides: %{name} = %{version}-%{release}
-Obsoletes: %{name} < %{version}-%{release}
-Requires: libalsa >= %alibversion
-Requires: %{name}-doc
+Summary:	Advanced Linux Sound Architecture (ALSA) plugins
+Group:		Sound
+Provides:	%{name} = %{version}-%{release}
+Obsoletes:	%{name} < %{version}-%{release}
+Requires:	libalsa >= %alibversion
 
 %description -n %{libname}
 Advanced Linux Sound Architecture (ALSA) utilities. Modularized architecture
@@ -64,8 +62,9 @@ OSS/Lite (kernel sound drivers), but contains many enhanced features.
 This is the plugins package, which allows you to manipulate ALSA settings.
 
 %package doc
-Summary: Advanced Linux Sound Architecture (ALSA) plugins
-Group: Sound
+Summary:	Advanced Linux Sound Architecture (ALSA) plugins
+Group:		Sound
+BuildArch:	noarch
 
 %description doc
 Documentation for %{name}
@@ -189,3 +188,4 @@ rm -rf %{buildroot}
 %doc doc/README-jack
 %{_datadir}/alsa/pcm/jack.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_jack.so
+
