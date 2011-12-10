@@ -13,9 +13,9 @@ Summary: Advanced Linux Sound Architecture (ALSA) plugins
 Name:    alsa-plugins
 Version: 1.0.24
 %if %beta
-Release: %mkrel 0.%{beta}.2
+Release: 0.%{beta}.2
 %else
-Release: %mkrel 1
+Release: 2
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/plugins/%fname.tar.bz2
 Source1: jack.conf
@@ -28,7 +28,6 @@ Source7: pulse-default.conf
 
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License: GPLv2+ and LGPLv2+
-BuildRoot: 	%_tmppath/%name-%version-%release-buildroot
 Group:		Sound
 URL:		http://www.alsa-project.org
 
@@ -154,15 +153,10 @@ install -d  %{buildroot}%{_sysconfdir}/sound/profiles/pulse
 install -m 644 %SOURCE7 \
                    %{buildroot}%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
 
-%clean
-rm -rf %{buildroot}
-
 %files doc
-%defattr(-,root,root)
 %doc COPYING* doc/R* doc/*.txt
 
 %files -n %{libname}
-%defattr(-,root,root)
 %exclude %{_libdir}/alsa-lib/*_pulse.so
 %exclude %{_libdir}/alsa-lib/*_jack.so
 %{_datadir}/alsa/pcm/samplerate.conf
@@ -172,20 +166,16 @@ rm -rf %{buildroot}
 
 
 %files pulse-config
-%defattr(-,root,root)
 %{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
 %{_datadir}/alsa/pcm/pulseaudio.conf
 
 %files -n %{libname}-pulseaudio
-%defattr(-,root,root,-)
 %doc doc/README-pulse
 %{_libdir}/alsa-lib/libasound_module_pcm_pulse.so
 %{_libdir}/alsa-lib/libasound_module_ctl_pulse.so
 %{_libdir}/alsa-lib/libasound_module_conf_pulse.so
 
 %files -n %{libname}-jack
-%defattr(-,root,root,-)
 %doc doc/README-jack
 %{_datadir}/alsa/pcm/jack.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_jack.so
-
