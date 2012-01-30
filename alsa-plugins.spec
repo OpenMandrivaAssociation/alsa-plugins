@@ -11,11 +11,11 @@
 
 Summary: Advanced Linux Sound Architecture (ALSA) plugins
 Name:    alsa-plugins
-Version: 1.0.24
+Version: 1.0.25
 %if %beta
-Release: 0.%{beta}.2
+Release: 0.%{beta}.1
 %else
-Release: 2
+Release: 1
 %endif
 Source0:  ftp://ftp.alsa-project.org/pub/plugins/%fname.tar.bz2
 Source1: jack.conf
@@ -152,6 +152,11 @@ install -m 644 %SOURCE1 %SOURCE2 \
 install -d  %{buildroot}%{_sysconfdir}/sound/profiles/pulse
 install -m 644 %SOURCE7 \
                    %{buildroot}%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
+
+# We already include those in other places
+rm %buildroot%_datadir/alsa/alsa.conf.d/50-pulseaudio.conf \
+   %buildroot%_datadir/alsa/alsa.conf.d/99-pulseaudio-default.conf.example
+
 
 %files doc
 %doc COPYING* doc/R* doc/*.txt
