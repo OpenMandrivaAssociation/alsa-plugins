@@ -33,7 +33,7 @@ URL:		http://www.alsa-project.org
 
 BuildRequires: kernel-headers >= 2.4.0
 BuildRequires: pkgconfig(alsa) >= %alibversion
-BuildRequires: pkgconfig(pulse) >= 0.8
+BuildRequires: pkgconfig(libpulse) >= 0.8
 BuildRequires: pkgconfig(ncurses)
 BuildRequires: pkgconfig(jack)
 BuildRequires: pkgconfig(libavcodec)
