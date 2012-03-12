@@ -13,7 +13,7 @@ Summary: Advanced Linux Sound Architecture (ALSA) plugins
 Name:    alsa-plugins
 Version: 1.0.25
 %if %beta
-Release: 0.%{beta}.1
+Release: 0.%{beta}.2
 %else
 Release: 1
 %endif
@@ -32,12 +32,12 @@ Group:		Sound
 URL:		http://www.alsa-project.org
 
 BuildRequires: kernel-headers >= 2.4.0
-BuildRequires: libalsa-devel >= %alibversion
-BuildRequires: libpulseaudio-devel >= 0.8
-BuildRequires: ncurses-devel
-BuildRequires: jackit-devel
-BuildRequires: ffmpeg-devel
-BuildRequires: speex-devel
+BuildRequires: pkgconfig(alsa) >= %alibversion
+BuildRequires: pkgconfig(pulse) >= 0.8
+BuildRequires: pkgconfig(ncurses)
+BuildRequires: pkgconfig(jack)
+BuildRequires: pkgconfig(libavcodec)
+BuildRequires: pkgconfig(speex)
 
 %description
 Advanced Linux Sound Architecture (ALSA) utilities. Modularized architecture
