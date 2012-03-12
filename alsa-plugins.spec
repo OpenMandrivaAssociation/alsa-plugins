@@ -51,7 +51,6 @@ Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Group:		Sound
 Provides:	%{name} = %{version}-%{release}
 Obsoletes:	%{name} < %{version}-%{release}
-Requires:	libalsa >= %alibversion
 
 %description -n %{libname}
 Advanced Linux Sound Architecture (ALSA) utilities. Modularized architecture
