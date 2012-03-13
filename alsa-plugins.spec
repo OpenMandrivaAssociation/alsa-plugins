@@ -83,6 +83,7 @@ Suggests:	lib%{name}-pulseaudio
 This plugin allows any program that uses the ALSA API to access a PulseAudio
 sound daemon. In other words, native ALSA applications can play and record
 sound across a network. There are two plugins in the suite, one for PCM and
+one for mixer control.
 
 %package -n	%{libname}-jack
 Summary:	Jack PCM output plugin for ALSA
