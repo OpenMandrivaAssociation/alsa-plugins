@@ -58,10 +58,6 @@ Documentation for %{name}.
 Summary:	Alsa to PulseAudio backend configuration
 Group:		Sound
 License:	LGPLv2+
-Conflicts:	%{libname}-pulseaudio  <= 1.0.16-6mdv2008.1
-%ifarch %{ix86}
-Conflicts:	lib64alsa-plugins-pulseaudio <= 1.0.16-6mdv2008.1
-%endif
 # (cg) For upgrading from old configuration system
 Requires(post):	libalsa-data >= 1.0.20-2
 Requires(post):	update-alternatives
