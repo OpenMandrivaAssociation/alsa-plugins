@@ -3,7 +3,7 @@
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
 Version:	1.0.25
-Release:	2
+Release:	3
 Source0:	ftp://ftp.alsa-project.org/pub/plugins/%{name}-%{version}.tar.bz2
 Source1:	jack.conf
 Source2:	pulseaudio.conf
