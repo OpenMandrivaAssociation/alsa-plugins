@@ -3,7 +3,7 @@
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
 Version:	1.0.25
-Release:	3
+Release:	5
 Source0:	ftp://ftp.alsa-project.org/pub/plugins/%{name}-%{version}.tar.bz2
 Source1:	jack.conf
 Source2:	pulseaudio.conf
@@ -12,6 +12,7 @@ Source4:	samplerate.conf
 Source5:	upmix.conf
 Source6:	vdownmix.conf
 Source7:	pulse-default.conf
+Patch0:		alsa-plugins-1.0.25-ffmpeg-0.11.patch
 
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
