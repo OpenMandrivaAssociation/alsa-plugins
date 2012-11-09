@@ -1,0 +1,9 @@
+sources:
+  "alsa-plugins-1.0.26.tar.bz2:"	17022b8dfbe5947246b9caf44786318ab46b001a
+  "jack.conf:"	27472acd6082bd5d6174b67f49f44005b263899a
+  "pcm-oss.conf:"	92efae41a1cf1c50adca968d50ce0e1dca2f4574
+  "pulseaudio.conf:"	9709e622a26a549ce7e64bd08f09f58da5aa4ef2
+  "pulse-default.conf:"	058bc17c6639a72dd677c34ce46b5ccb65c5dc58
+  "samplerate.conf:"	9df838e69965924953b1dbc604bc948bab898c33
+  "upmix.conf:"	bd65817aedae982c6b2b687caa6e2d1826150259
+  "vdownmix.conf:"	a128106944c529a10bcd07902fae66e8e17564e7

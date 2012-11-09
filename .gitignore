@@ -1,0 +1,8 @@
+alsa-plugins-1.0.26.tar.bz2
+jack.conf
+pcm-oss.conf
+pulseaudio.conf
+pulse-default.conf
+samplerate.conf
+upmix.conf
+vdownmix.conf
