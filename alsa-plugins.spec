@@ -4,6 +4,10 @@ Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
 Version:	1.0.26
 Release:	1
+# All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
+License:	GPLv2+ and LGPLv2+
+Group:		Sound
+Url:		http://www.alsa-project.org
 Source0:	ftp://ftp.alsa-project.org/pub/plugins/%{name}-%{version}.tar.bz2
 Source1:	jack.conf
 Source2:	pulseaudio.conf
@@ -14,17 +18,12 @@ Source6:	vdownmix.conf
 Source7:	pulse-default.conf
 Patch0:		alsa-plugins-1.0.25-ffmpeg-0.11.patch
 
-# All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
-License:	GPLv2+ and LGPLv2+
-Group:		Sound
-URL:		http://www.alsa-project.org
-
 BuildRequires:	kernel-headers >= 2.4.0
 BuildRequires:	pkgconfig(alsa) >= %{version}
-BuildRequires:	pkgconfig(libpulse) >= 0.8
-BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	pkgconfig(jack)
 BuildRequires:	pkgconfig(libavcodec)
+BuildRequires:	pkgconfig(libpulse) >= 0.8
+BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	pkgconfig(speex)
 
 %description
@@ -109,7 +108,7 @@ This plugin provides the PCM type "jack"
 
 %build
 %configure2_5x
-%make
+%make LIBS='-pthread'
 
 %install
 %makeinstall_std mkdir_p="mkdir -p"
