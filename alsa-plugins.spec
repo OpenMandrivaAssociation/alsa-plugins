@@ -17,6 +17,7 @@ Source5:	upmix.conf
 Source6:	vdownmix.conf
 Source7:	pulse-default.conf
 Patch0:		alsa-plugins-1.0.25-ffmpeg-0.11.patch
+Patch1:		alsa-plugins-1.0.19-missing-avutil.patch
 
 BuildRequires:	kernel-headers >= 2.4.0
 BuildRequires:	pkgconfig(alsa) >= %{version}
@@ -107,6 +108,7 @@ This plugin provides the PCM type "jack"
 %apply_patches
 
 %build
+autoreconf -fi
 %configure2_5x
 %make LIBS='-pthread'
 
