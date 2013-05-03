@@ -2,8 +2,8 @@
 
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
-Version:	1.0.26
-Release:	2
+Version:	1.0.27
+Release:	1
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
@@ -16,7 +16,6 @@ Source4:	samplerate.conf
 Source5:	upmix.conf
 Source6:	vdownmix.conf
 Source7:	pulse-default.conf
-Patch0:		alsa-plugins-1.0.25-ffmpeg-0.11.patch
 Patch1:		alsa-plugins-1.0.19-missing-avutil.patch
 
 BuildRequires:	kernel-headers >= 2.4.0
