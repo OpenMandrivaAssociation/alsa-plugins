@@ -16,6 +16,7 @@ Source4:	samplerate.conf
 Source5:	upmix.conf
 Source6:	vdownmix.conf
 Source7:	pulse-default.conf
+Source8:	a52.conf
 Patch1:		alsa-plugins-1.0.19-missing-avutil.patch
 
 BuildRequires:	kernel-headers >= 2.4.0
@@ -125,7 +126,7 @@ autoreconf -fi
 %makeinstall_std mkdir_p="mkdir -p"
 
 install -d %{buildroot}%{_datadir}/alsa/pcm
-install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{buildroot}%{_datadir}/alsa/pcm
+install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE8} %{buildroot}%{_datadir}/alsa/pcm
 
 # (cg) Include a configuration for when pulse is active
 install -m644 %{SOURCE7} -D %{buildroot}%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
@@ -169,4 +170,5 @@ fi
 %{_libdir}/alsa-lib/libasound_module_pcm_jack.so
 
 %files -n %{libname}-a52
+%{_datadir}/alsa/alsa.conf.d/a52.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_a52.so
