@@ -126,7 +126,8 @@ autoreconf -fi
 %makeinstall_std mkdir_p="mkdir -p"
 
 install -d %{buildroot}%{_datadir}/alsa/pcm
-install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE8} %{buildroot}%{_datadir}/alsa/pcm
+install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{buildroot}%{_datadir}/alsa/pcm
+install -m644 %{SOURCE5} %{buildroot}%{_datadir}/alsa/alsa.conf.d/a52.conf
 
 # (cg) Include a configuration for when pulse is active
 install -m644 %{SOURCE7} -D %{buildroot}%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
