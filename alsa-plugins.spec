@@ -116,9 +116,9 @@ This plugin supports Digital 5.1 AC3 emulation over S/PDIF (IEC958).
 %prep
 %setup -q
 %apply_patches
+autoreconf -fi
 
 %build
-autoreconf -fi
 %configure2_5x
 %make LIBS='-pthread'
 
