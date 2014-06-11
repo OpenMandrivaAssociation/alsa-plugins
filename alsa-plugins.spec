@@ -3,7 +3,7 @@
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
 Version:	1.0.27
-Release:	5
+Release:	6
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
@@ -102,6 +102,16 @@ transparently together with jackd for both playback and capture.
 
 This plugin provides the PCM type "jack"
 
+%package -n	%{libname}-a52
+Summary:	A52/AC3 output plugin for ALSA
+Group:		System/Libraries
+License:	LGPLv2+
+Provides:	%{name}-a52 = %{version}-%{release}
+Conflicts:	%{libname} < 1.0.25-6
+
+%description -n	%{libname}-a52
+This plugin supports Digital 5.1 AC3 emulation over S/PDIF (IEC958).
+
 %prep
 %setup -q
 %apply_patches
@@ -137,6 +147,7 @@ fi
 %files -n %{libname}
 %exclude %{_libdir}/alsa-lib/*_pulse.so
 %exclude %{_libdir}/alsa-lib/*_jack.so
+%exclude %{_libdir}/alsa-lib/*_a52.so
 %{_datadir}/alsa/pcm/samplerate.conf
 %{_datadir}/alsa/pcm/upmix.conf
 %{_datadir}/alsa/pcm/vdownmix.conf
@@ -156,3 +167,6 @@ fi
 %doc doc/README-jack
 %{_datadir}/alsa/pcm/jack.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_jack.so
+
+%files -n %{libname}-a52
+%{_libdir}/alsa-lib/libasound_module_pcm_a52.so
