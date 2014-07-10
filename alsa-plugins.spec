@@ -2,8 +2,8 @@
 
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
-Version:	1.0.27
-Release:	7
+Version:	1.0.28
+Release:	1
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
@@ -119,7 +119,7 @@ This plugin supports Digital 5.1 AC3 emulation over S/PDIF (IEC958).
 autoreconf -fi
 
 %build
-%configure2_5x
+%configure
 %make LIBS='-pthread'
 
 %install
