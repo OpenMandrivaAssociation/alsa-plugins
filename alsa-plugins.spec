@@ -17,7 +17,6 @@ Source5:	upmix.conf
 Source6:	vdownmix.conf
 Source7:	pulse-default.conf
 Source8:	a52.conf
-Patch1:		alsa-plugins-1.0.19-missing-avutil.patch
 
 BuildRequires:	kernel-headers >= 2.4.0
 BuildRequires:	pkgconfig(alsa) >= %{version}
