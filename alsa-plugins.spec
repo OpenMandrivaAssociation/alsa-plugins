@@ -3,7 +3,7 @@
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
 Version:	1.0.28
-Release:	3
+Release:	4
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
@@ -53,18 +53,6 @@ BuildArch:	noarch
 %description	doc
 Documentation for %{name}.
 
-# (tv) needed for biarch:
-%package	pulse-config
-Summary:	Alsa to PulseAudio backend configuration
-Group:		Sound
-License:	LGPLv2+
-# (cg) For upgrading from old configuration system
-Requires(post):	libalsa-data >= 1.0.20-2
-Requires(post):	update-alternatives
-
-%description	pulse-config
-This package contains configuration files for the pulse ALSA plugin.
-
 %package -n	%{libname}-pulseaudio
 Summary:	Alsa to PulseAudio backend
 Group:		Sound
@@ -72,11 +60,18 @@ License:	LGPLv2+
 Provides:	%{name}-pulseaudio = %{version}-%{release}
 Conflicts:	%{libname} < 1.0.15-2
 Conflicts:	%{name} < 1.0.14-8
-Requires:	%{name}-pulse-config
-%ifarch x86_64
+%rename		%{name}-pulse-config
+Requires(post):	update-alternatives
+%if "%{_lib}" == "lib64"
 # (cg) Suggest the 32 bit plugin on 64 bits to ensure compatibility
 #      with (typically closed source) 32 bit apps.
 Suggests:	lib%{name}-pulseaudio
+# (proyvind): Ensure that both packages gets upgraded at the same time for
+#             biarch in order to avoid possible file conflicts between config
+#             files on upgrade (as urpmi lacks support for ensuring that all
+#             packages that owns a specific file gets upgraded during the
+#             same transaction.
+Conflicts:	lib%{name}-pulseaudio < %{EVRD} lib%{name}-pulseaudio > %{EVRD}
 %endif
 
 %description -n	%{libname}-pulseaudio
@@ -134,7 +129,7 @@ install -m644 %{SOURCE7} -D %{buildroot}%{_sysconfdir}/sound/profiles/pulse/alsa
 # We already include those in other places
 rm %{buildroot}%{_datadir}/alsa/alsa.conf.d/{50-pulseaudio.conf,99-pulseaudio-default.conf.example}
 
-%post pulse-config
+%post -n %{libname}-pulseaudio
 # (cg) Check to see if the user has disabled pulse in the old style setup.
 if [ -f %{_sysconfdir}/alsa/pulse-default.conf ]; then
   if grep -q "^#DRAKSOUND- " %{_sysconfdir}/alsa/pulse-default.conf; then
@@ -154,12 +149,10 @@ fi
 %{_datadir}/alsa/pcm/vdownmix.conf
 %{_libdir}/alsa-lib/*
 
-%files pulse-config
-%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
-%{_datadir}/alsa/pcm/pulseaudio.conf
-
 %files -n %{libname}-pulseaudio
 %doc doc/README-pulse
+%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
+%{_datadir}/alsa/pcm/pulseaudio.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_pulse.so
 %{_libdir}/alsa-lib/libasound_module_ctl_pulse.so
 %{_libdir}/alsa-lib/libasound_module_conf_pulse.so
