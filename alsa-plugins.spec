@@ -3,7 +3,7 @@
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
 Version:	1.0.29
-Release:	1
+Release:	2
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
@@ -45,12 +45,12 @@ OSS/Lite (kernel sound drivers), but contains many enhanced features.
 
 This is the plugins package, which allows you to manipulate ALSA settings.
 
-%package	doc
+%package doc
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Group:		Sound
 BuildArch:	noarch
 
-%description	doc
+%description doc
 Documentation for %{name}.
 
 %package -n	%{libname}-pulseaudio
