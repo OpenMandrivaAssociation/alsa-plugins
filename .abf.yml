@@ -1,4 +1,2 @@
-removed_sources:
-  alsa-plugins-1.0.26.tar.bz2: 17022b8dfbe5947246b9caf44786318ab46b001a
 sources:
-  alsa-plugins-1.0.27.tar.bz2: a04da303d3f70005f6ce472bbab6ecac1072a558
+  alsa-plugins-1.0.29.tar.bz2: 8a0d3c24da003c2bb7de7891caeff6e684210a3c
