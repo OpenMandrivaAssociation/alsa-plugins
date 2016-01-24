@@ -127,10 +127,10 @@ export CFLAGS="$CFLAGS -DHAVE_STDINT_H"
 
 install -d %{buildroot}%{_datadir}/alsa/pcm
 install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE9} %{buildroot}%{_datadir}/alsa/pcm
-install -m644 %{SOURCE5} %{buildroot}%{_datadir}/alsa/alsa.conf.d/a52.conf
+install -m644 %{SOURCE5} %{buildroot}%{_datadir}/alsa/alsa.conf.d/50-a52.conf
 
 # (cg) Include a configuration for when pulse is active
-install -m644 %{SOURCE7} -D %{buildroot}%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
+install -m644 %{SOURCE7} -D %{buildroot}%{_sysconfdir}/sound/profiles/pulse/99-alsa-default.conf
 
 # We already include those in other places
 rm %{buildroot}%{_datadir}/alsa/alsa.conf.d/{50-pulseaudio.conf,99-pulseaudio-default.conf.example}
@@ -166,7 +166,7 @@ fi
 
 %files -n %{libname}-jack
 %doc doc/README-jack
-%{_datadir}/alsa/pcm/jack.conf
+%{_datadir}/alsa/pcm/50-jack.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_jack.so
 
 %files -n %{libname}-a52
