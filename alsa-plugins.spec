@@ -3,20 +3,21 @@
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
 Version:	1.1.0
-Release:	2
+Release:	3
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
 Url:		http://www.alsa-project.org
 Source0:	ftp://ftp.alsa-project.org/pub/plugins/%{name}-%{version}.tar.bz2
-Source1:	jack.conf
+Source1:	50-jack.conf
 Source2:	pulseaudio.conf
-Source3:	pcm-oss.conf
-Source4:	samplerate.conf
-Source5:	upmix.conf
-Source6:	vdownmix.conf
-Source7:	pulse-default.conf
-Source8:	a52.conf
+Source3:	50-oss.conf
+Source4:	10-samplerate.conf
+Source5:	50-upmix.conf
+Source6:	97-vdownmix.conf
+Source7:	99-pulse-default.conf
+Source8:	50-a52.conf
+Source9:	10-speex.conf
 
 BuildRequires:	kernel-headers >= 2.4.0
 BuildRequires:	pkgconfig(alsa) >= %{version}
@@ -114,14 +115,18 @@ This plugin supports Digital 5.1 AC3 emulation over S/PDIF (IEC958).
 autoreconf -fi
 
 %build
-%configure
+# (tpg) fix compilation with speexdsp
+export CFLAGS="$CFLAGS -DHAVE_STDINT_H"
+%configure \
+	--with-speex=lib
+
 %make LIBS='-pthread'
 
 %install
 %makeinstall_std mkdir_p="mkdir -p"
 
 install -d %{buildroot}%{_datadir}/alsa/pcm
-install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{buildroot}%{_datadir}/alsa/pcm
+install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE9} %{buildroot}%{_datadir}/alsa/pcm
 install -m644 %{SOURCE5} %{buildroot}%{_datadir}/alsa/alsa.conf.d/a52.conf
 
 # (cg) Include a configuration for when pulse is active
@@ -145,14 +150,15 @@ fi
 %exclude %{_libdir}/alsa-lib/*_pulse.so
 %exclude %{_libdir}/alsa-lib/*_jack.so
 %exclude %{_libdir}/alsa-lib/*_a52.so
-%{_datadir}/alsa/pcm/samplerate.conf
-%{_datadir}/alsa/pcm/upmix.conf
-%{_datadir}/alsa/pcm/vdownmix.conf
+%{_datadir}/alsa/pcm/10-samplerate.conf
+%{_datadir}/alsa/pcm/10-speex.conf
+%{_datadir}/alsa/pcm/50-upmix.conf
+%{_datadir}/alsa/pcm/97-vdownmix.conf
 %{_libdir}/alsa-lib/*
 
 %files -n %{libname}-pulseaudio
 %doc doc/README-pulse
-%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
+%{_sysconfdir}/sound/profiles/pulse/99-alsa-default.conf
 %{_datadir}/alsa/pcm/pulseaudio.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_pulse.so
 %{_libdir}/alsa-lib/libasound_module_ctl_pulse.so
@@ -164,5 +170,5 @@ fi
 %{_libdir}/alsa-lib/libasound_module_pcm_jack.so
 
 %files -n %{libname}-a52
-%{_datadir}/alsa/alsa.conf.d/a52.conf
+%{_datadir}/alsa/alsa.conf.d/50-a52.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_a52.so
