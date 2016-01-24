@@ -3,7 +3,7 @@
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
 Version:	1.1.0
-Release:	1
+Release:	2
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
@@ -25,6 +25,7 @@ BuildRequires:	pkgconfig(libavcodec)
 BuildRequires:	pkgconfig(libpulse) >= 0.8
 BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	pkgconfig(speex)
+BuildRequires:	pkgconfig(speexdsp)
 
 %description
 Advanced Linux Sound Architecture (ALSA) utilities. Modularized architecture
