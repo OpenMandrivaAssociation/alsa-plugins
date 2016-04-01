@@ -2,8 +2,8 @@
 
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
-Version:	1.1.0
-Release:	5
+Version:	1.1.1
+Release:	1
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
@@ -18,8 +18,6 @@ Source6:	vdownmix.conf
 Source7:	pulse-default.conf
 Source8:	a52.conf
 Source9:	speex.conf
-Patch1:		0001-Do-not-use-deprecated-FFmpeg-API.patch
-Patch2:		0002-replace-avcodec_alloc_free_frame.patch
 BuildRequires:	kernel-headers >= 2.4.0
 BuildRequires:	pkgconfig(alsa) >= %{version}
 BuildRequires:	pkgconfig(jack)
