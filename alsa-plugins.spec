@@ -3,7 +3,7 @@
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
 Version:	1.1.1
-Release:	1
+Release:	2
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
@@ -67,6 +67,7 @@ Requires(post):	update-alternatives
 # (cg) Suggest the 32 bit plugin on 64 bits to ensure compatibility
 #      with (typically closed source) 32 bit apps.
 Suggests:	lib%{name}-pulseaudio
+Suggests:	pulseaudio-client-config
 # (proyvind): Ensure that both packages gets upgraded at the same time for
 #             biarch in order to avoid possible file conflicts between config
 #             files on upgrade (as urpmi lacks support for ensuring that all
