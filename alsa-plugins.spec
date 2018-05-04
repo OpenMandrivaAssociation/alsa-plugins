@@ -2,8 +2,8 @@
 
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
-Version:	1.1.5
-Release:	3
+Version:	1.1.6
+Release:	1
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
@@ -34,12 +34,12 @@ OSS/Lite (kernel sound drivers), but contains many enhanced features.
 
 This is the plugins package, which allows you to manipulate ALSA settings.
 
-%package -n	%{libname}
+%package -n %{libname}
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Group:		Sound
 %rename		%{name}
 
-%description -n	%{libname}
+%description -n %{libname}
 Advanced Linux Sound Architecture (ALSA) utilities. Modularized architecture
 with support for a large range of ISA and PCI cards. Fully compatible with
 OSS/Lite (kernel sound drivers), but contains many enhanced features.
@@ -54,7 +54,7 @@ BuildArch:	noarch
 %description doc
 Documentation for %{name}.
 
-%package -n	%{libname}-pulseaudio
+%package -n %{libname}-pulseaudio
 Summary:	Alsa to PulseAudio backend
 Group:		Sound
 License:	LGPLv2+
@@ -62,7 +62,7 @@ Provides:	%{name}-pulseaudio = %{version}-%{release}
 Conflicts:	%{libname} < 1.0.15-2
 Conflicts:	%{name} < 1.0.14-8
 %rename		%{name}-pulse-config
-Requires(post):	update-alternatives
+Requires(post):	chkconfig
 %if "%{_lib}" == "lib64"
 # (cg) Suggest the 32 bit plugin on 64 bits to ensure compatibility
 #      with (typically closed source) 32 bit apps.
@@ -76,20 +76,20 @@ Suggests:	pulseaudio-client-config
 Conflicts:	lib%{name}-pulseaudio < %{EVRD} lib%{name}-pulseaudio > %{EVRD}
 %endif
 
-%description -n	%{libname}-pulseaudio
+%description -n %{libname}-pulseaudio
 This plugin allows any program that uses the ALSA API to access a PulseAudio
 sound daemon. In other words, native ALSA applications can play and record
 sound across a network. There are two plugins in the suite, one for PCM and
 one for mixer control.
 
-%package -n	%{libname}-jack
+%package -n %{libname}-jack
 Summary:	Jack PCM output plugin for ALSA
 Group:		Sound
 License:	LGPLv2+
 Provides:	%{name}-jack = %{version}-%{release}
 Conflicts:	%{libname} < 1.0.15-2
 
-%description -n	%{libname}-jack
+%description -n %{libname}-jack
 This plugin converts the ALSA API over JACK (Jack Audio Connection
 Kit, http://jackit.sf.net) API.  ALSA native applications can work
 transparently together with jackd for both playback and capture.
@@ -99,14 +99,14 @@ transparently together with jackd for both playback and capture.
 
 This plugin provides the PCM type "jack"
 
-%package -n	%{libname}-a52
+%package -n %{libname}-a52
 Summary:	A52/AC3 output plugin for ALSA
 Group:		System/Libraries
 License:	LGPLv2+
 Provides:	%{name}-a52 = %{version}-%{release}
 Conflicts:	%{libname} < 1.0.25-6
 
-%description -n	%{libname}-a52
+%description -n %{libname}-a52
 This plugin supports Digital 5.1 AC3 emulation over S/PDIF (IEC958).
 
 %prep
