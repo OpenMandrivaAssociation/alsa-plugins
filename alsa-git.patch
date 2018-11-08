@@ -1,0 +1,237 @@
+From 68c4cd3a471ed1f4a367830eb31881d3e5815813 Mon Sep 17 00:00:00 2001
+From: Jaroslav Kysela <perex@perex.cz>
+Date: Tue, 23 Oct 2018 08:39:16 +0200
+Subject: [PATCH 1/7] pcm_usb_stream: fix another leak in snd_pcm_us_open()
+
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+---
+ usb_stream/pcm_usb_stream.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/usb_stream/pcm_usb_stream.c b/usb_stream/pcm_usb_stream.c
+index eb4ca98..5ca1c0f 100644
+--- a/usb_stream/pcm_usb_stream.c
++++ b/usb_stream/pcm_usb_stream.c
+@@ -424,8 +424,10 @@ static int snd_pcm_us_open(snd_pcm_t **pcmp, const char *name,
+ 	}
+ 	VDBG("%i %s", stream, us_name);
+ 	us->uus = get_uus(card);
+-	if (!us->uus)
++	if (!us->uus) {
++		free(us);
+ 		return -ENOMEM;
++	}
+ 	err = snd_hwdep_open(&us->hwdep, us_name, O_RDWR);
+ 	if (err < 0) {
+ 		us_free(us);
+-- 
+2.13.6
+
+
+From 9ff42e4baf03a84eca83b8c25e0165572259d253 Mon Sep 17 00:00:00 2001
+From: Jaroslav Kysela <perex@perex.cz>
+Date: Tue, 23 Oct 2018 08:47:16 +0200
+Subject: [PATCH 2/7] pcm_usb_stream: remove unused parameter in
+ snd_pcm_us_read()
+
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+---
+ usb_stream/pcm_usb_stream.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/usb_stream/pcm_usb_stream.c b/usb_stream/pcm_usb_stream.c
+index 5ca1c0f..6d08c37 100644
+--- a/usb_stream/pcm_usb_stream.c
++++ b/usb_stream/pcm_usb_stream.c
+@@ -297,7 +297,7 @@ static snd_pcm_sframes_t snd_pcm_us_write(snd_pcm_ioplug_t *io,
+ 	return size;
+ }
+ 
+-static int usb_stream_read(struct user_usb_stream *uus, void *to, unsigned bytes)
++static int usb_stream_read(struct user_usb_stream *uus, void *to)
+ {
+ 	struct usb_stream *s = uus->s;
+ 	int p = s->inpacket_split, l = 0;
+@@ -337,8 +337,7 @@ static snd_pcm_sframes_t snd_pcm_us_read(snd_pcm_ioplug_t *io,
+ 			return -EINVAL;
+ 		}
+ 		if (us->uus->s->periods_done - us->periods_done == 1) {
+-			red = usb_stream_read(us->uus, to, size * frame_size) /
+-				frame_size;
++			red = usb_stream_read(us->uus, to) / frame_size;
+ 			us->periods_done++;
+ 			return red;
+ 		}
+-- 
+2.13.6
+
+
+From cbe7907f46ce9dcd73be392f6660c76767ce3c99 Mon Sep 17 00:00:00 2001
+From: Jaroslav Kysela <perex@perex.cz>
+Date: Tue, 23 Oct 2018 08:49:23 +0200
+Subject: [PATCH 3/7] pcm_usb_stream: fix signess issues
+
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+---
+ usb_stream/pcm_usb_stream.c | 4 ++--
+ usb_stream/usb_stream.h     | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/usb_stream/pcm_usb_stream.c b/usb_stream/pcm_usb_stream.c
+index 6d08c37..3f74aba 100644
+--- a/usb_stream/pcm_usb_stream.c
++++ b/usb_stream/pcm_usb_stream.c
+@@ -300,9 +300,9 @@ static snd_pcm_sframes_t snd_pcm_us_write(snd_pcm_ioplug_t *io,
+ static int usb_stream_read(struct user_usb_stream *uus, void *to)
+ {
+ 	struct usb_stream *s = uus->s;
+-	int p = s->inpacket_split, l = 0;
++	unsigned p = s->inpacket_split, l = 0;
+ 	void *i = (void *)s + s->inpacket[p].offset + s->inpacket_split_at;
+-	int il = s->inpacket[p].length - s->inpacket_split_at;
++	unsigned il = s->inpacket[p].length - s->inpacket_split_at;
+ 
+ 	do {
+ 		if (l + il > s->period_size)
+diff --git a/usb_stream/usb_stream.h b/usb_stream/usb_stream.h
+index 4dd74ab..96f8d9e 100644
+--- a/usb_stream/usb_stream.h
++++ b/usb_stream/usb_stream.h
+@@ -39,7 +39,7 @@ struct usb_stream {
+ 	unsigned read_size;
+ 	unsigned write_size;
+ 
+-	int period_size;
++	unsigned period_size;
+ 
+ 	unsigned state;
+ 
+-- 
+2.13.6
+
+
+From a4e7e1282c57a2f4e83afe9a4008042d8b4c5bb9 Mon Sep 17 00:00:00 2001
+From: Jaroslav Kysela <perex@perex.cz>
+Date: Tue, 23 Oct 2018 09:32:46 +0200
+Subject: [PATCH 4/7] a52_close: set slave to NULL to avoid double pcm free in
+ open fcn
+
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+---
+ a52/pcm_a52.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/a52/pcm_a52.c b/a52/pcm_a52.c
+index e431fd0..b005bc2 100644
+--- a/a52/pcm_a52.c
++++ b/a52/pcm_a52.c
+@@ -654,10 +654,13 @@ static int a52_poll_revents(snd_pcm_ioplug_t *io, struct pollfd *pfd,
+ static int a52_close(snd_pcm_ioplug_t *io)
+ {
+ 	struct a52_ctx *rec = io->private_data;
++	snd_pcm_t *slave = rec->slave;
+ 
+ 	a52_free(rec);
+-	if (rec->slave)
+-		return snd_pcm_close(rec->slave);
++	if (slave) {
++		rec->slave = NULL;
++		return snd_pcm_close(slave);
++	}
+ 	return 0;
+ }
+ 			      
+-- 
+2.13.6
+
+
+From a244a37076cec8c7a65b844e334518c393fbdc5b Mon Sep 17 00:00:00 2001
+From: Jaroslav Kysela <perex@perex.cz>
+Date: Wed, 24 Oct 2018 12:18:42 +0200
+Subject: [PATCH 5/7] Revert "jack: Fix leaks when jack_set_hw_constraint()
+ fails"
+
+This reverts commit f4746667a4a2490f17c2a82b6f421bc3c9bd6de8.
+
+snd_pcm_ioplug_delete() already calls snd_pcm_close()!
+
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+---
+ jack/pcm_jack.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/jack/pcm_jack.c b/jack/pcm_jack.c
+index 6aaecac..b39835e 100644
+--- a/jack/pcm_jack.c
++++ b/jack/pcm_jack.c
+@@ -538,7 +538,6 @@ static int snd_pcm_jack_open(snd_pcm_t **pcmp, const char *name,
+ 	err = jack_set_hw_constraint(jack);
+ 	if (err < 0) {
+ 		snd_pcm_ioplug_delete(&jack->io);
+-		snd_pcm_jack_free(jack);
+ 		return err;
+ 	}
+ 
+-- 
+2.13.6
+
+
+From 434c83d5c422dd4367711e08b3538e366fcc469e Mon Sep 17 00:00:00 2001
+From: Jaroslav Kysela <perex@perex.cz>
+Date: Wed, 24 Oct 2018 12:23:11 +0200
+Subject: [PATCH 6/7] Revert "usb_stream: Fix leaks when us_set_hw_constraint()
+ fails"
+
+This reverts commit 6b996865126dd559ef186002e45dc6e1594291e7.
+
+snd_pcm_ioplug_delete() already calls snd_pcm_close()!
+
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+---
+ usb_stream/pcm_usb_stream.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/usb_stream/pcm_usb_stream.c b/usb_stream/pcm_usb_stream.c
+index 3f74aba..2a93d1f 100644
+--- a/usb_stream/pcm_usb_stream.c
++++ b/usb_stream/pcm_usb_stream.c
+@@ -456,7 +456,6 @@ static int snd_pcm_us_open(snd_pcm_t **pcmp, const char *name,
+ 	err = us_set_hw_constraint(us);
+ 	if (err < 0) {
+ 		snd_pcm_ioplug_delete(&us->io);
+-		us_free(us);
+ 		return err;
+ 	}
+ 
+-- 
+2.13.6
+
+
+From 7dfd3c4fe073319f21192c89a44c16f8b68af3ad Mon Sep 17 00:00:00 2001
+From: Jaroslav Kysela <perex@perex.cz>
+Date: Wed, 24 Oct 2018 12:27:16 +0200
+Subject: [PATCH 7/7] Revert "oss: Fix leaks when oss_hw_constraint() fails"
+
+This reverts commit b8bcd458b79146547fc6dae1645832695545da44.
+
+snd_pcm_ioplug_delete() already calls snd_pcm_close()!
+---
+ oss/pcm_oss.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/oss/pcm_oss.c b/oss/pcm_oss.c
+index 8ab4fb0..dadbb5b 100644
+--- a/oss/pcm_oss.c
++++ b/oss/pcm_oss.c
+@@ -413,7 +413,7 @@ SND_PCM_PLUGIN_DEFINE_FUNC(oss)
+ 
+ 	if ((err = oss_hw_constraint(oss)) < 0) {
+ 		snd_pcm_ioplug_delete(&oss->io);
+-		goto error;
++		return err;
+ 	}
+ 
+ 	*pcmp = oss->io.pcm;
+-- 
+2.13.6
+
