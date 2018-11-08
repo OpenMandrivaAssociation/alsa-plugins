@@ -150,14 +150,14 @@ fi
 %exclude %{_libdir}/alsa-lib/*_pulse.so
 %exclude %{_libdir}/alsa-lib/*_jack.so
 %exclude %{_libdir}/alsa-lib/*_a52.so
-%{_sysconfdir}/alsa/alsa.conf.d/10-rate-lav.conf
-%{_sysconfdir}/alsa/alsa.conf.d/10-speexrate.conf
-%{_sysconfdir}/alsa/alsa.conf.d/50-arcam-av-ctl.conf
-%{_sysconfdir}/alsa/alsa.conf.d/50-oss.conf
-%{_sysconfdir}/alsa/alsa.conf.d/60-speex.conf
-%{_sysconfdir}/alsa/alsa.conf.d/60-upmix.conf
-%{_sysconfdir}/alsa/alsa.conf.d/60-vdownmix.conf
-%{_sysconfdir}/alsa/alsa.conf.d/98-usb-stream.conf
+%{_sysconfdir}/alsa/conf.d/10-rate-lav.conf
+%{_sysconfdir}/alsa/conf.d/10-speexrate.conf
+%{_sysconfdir}/alsa/conf.d/50-arcam-av-ctl.conf
+%{_sysconfdir}/alsa/conf.d/50-oss.conf
+%{_sysconfdir}/alsa/conf.d/60-speex.conf
+%{_sysconfdir}/alsa/conf.d/60-upmix.conf
+%{_sysconfdir}/alsa/conf.d/60-vdownmix.conf
+%{_sysconfdir}/alsa/conf.d/98-usb-stream.conf
 %{_datadir}/alsa/alsa.conf.d/10-rate-lav.conf
 %{_datadir}/alsa/alsa.conf.d/10-speexrate.conf
 %{_datadir}/alsa/alsa.conf.d/50-arcam-av-ctl.conf
@@ -171,7 +171,7 @@ fi
 %files -n %{libname}-pulseaudio
 %doc doc/README-pulse
 %{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
-%{_sysconfdir}/alsa/alsa.conf.d/50-pulseaudio.conf
+%{_sysconfdir}/alsa/conf.d/50-pulseaudio.conf
 %{_datadir}/alsa/alsa.conf.d/50-pulseaudio.conf.example
 %{_libdir}/alsa-lib/libasound_module_pcm_pulse.so
 %{_libdir}/alsa-lib/libasound_module_ctl_pulse.so
@@ -179,11 +179,11 @@ fi
 
 %files -n %{libname}-jack
 %doc doc/README-jack
-%{_sysconfdir}/alsa/alsa.conf.d/50-jack.conf
+%{_sysconfdir}/alsa/conf.d/50-jack.conf
 %{_datadir}/alsa/alsa.conf.d/50-jack.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_jack.so
 
 %files -n %{libname}-a52
-%{_sysconfdir}/alsa/alsa.conf.d/60-a52-encoder.conf
+%{_sysconfdir}/alsa/conf.d/60-a52-encoder.conf
 %{_datadir}/alsa/alsa.conf.d/60-a52-encoder.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_a52.so
