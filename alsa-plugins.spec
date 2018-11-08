@@ -9,15 +9,7 @@ License:	GPLv2+ and LGPLv2+
 Group:		Sound
 Url:		http://www.alsa-project.org
 Source0:	ftp://ftp.alsa-project.org/pub/plugins/%{name}-%{version}.tar.bz2
-Source1:	jack.conf
-Source2:	pulseaudio.conf
-Source3:	oss.conf
-Source4:	samplerate.conf
-Source5:	upmix.conf
-Source6:	vdownmix.conf
-Source7:	pulse-default.conf
-Source8:	a52.conf
-Source9:	speex.conf
+Source1:	pulse-default.conf
 Patch0:         alsa-git.patch
 BuildRequires:	kernel-headers >= 2.4.0
 BuildRequires:	pkgconfig(alsa) >= %{version}
@@ -126,14 +118,12 @@ export CFLAGS="$CFLAGS -DHAVE_STDINT_H"
 %make_install mkdir_p="mkdir -p"
 
 install -d %{buildroot}%{_datadir}/alsa/pcm
-install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE9} %{buildroot}%{_datadir}/alsa/pcm
-install -m644 %{SOURCE5} %{buildroot}%{_datadir}/alsa/alsa.conf.d/a52.conf
 
 # (cg) Include a configuration for when pulse is active
-install -m644 %{SOURCE7} -D %{buildroot}%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
+install -m644 %{SOURCE1} -D %{buildroot}%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
 
 # We already include those in other places
-rm %{buildroot}%{_datadir}/alsa/alsa.conf.d/{50-pulseaudio.conf,99-pulseaudio-default.conf.example} ||:
+rm %{buildroot}%{_datadir}/alsa/conf.d/{50-pulseaudio.conf,99-pulseaudio-default.conf.example} ||:
 
 %post -n %{libname}-pulseaudio
 # (cg) Check to see if the user has disabled pulse in the old style setup.
@@ -172,7 +162,6 @@ fi
 %doc doc/README-pulse
 %{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
 %{_sysconfdir}/alsa/conf.d/50-pulseaudio.conf
-%{_datadir}/alsa/alsa.conf.d/99-pulseaudio.conf.example
 %{_libdir}/alsa-lib/libasound_module_pcm_pulse.so
 %{_libdir}/alsa-lib/libasound_module_ctl_pulse.so
 %{_libdir}/alsa-lib/libasound_module_conf_pulse.so
