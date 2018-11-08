@@ -124,7 +124,7 @@ install -m644 %{SOURCE1} -D %{buildroot}%{_sysconfdir}/sound/profiles/pulse/alsa
 
 # We already include those in other places
 rm %{buildroot}%{_datadir}/alsa/alsa.conf.d/{50-pulseaudio.conf,99-pulseaudio-default.conf.example} ||:
-rm %{buildroot}%{_sysconfdir}/alsa/conf.d/{50-pulseaudio.conf,99-pulseaudio-default.conf.example} ||:
+rm %{buildroot}%{_sysconfdir}/alsa/conf.d/99-pulseaudio-default.conf.example ||:
 
 %post -n %{libname}-pulseaudio
 # (cg) Check to see if the user has disabled pulse in the old style setup.
