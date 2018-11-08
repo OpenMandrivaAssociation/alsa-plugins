@@ -2,8 +2,8 @@
 
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
-Version:	1.1.6
-Release:	2
+Version:	1.1.7
+Release:	1
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
@@ -18,6 +18,7 @@ Source6:	vdownmix.conf
 Source7:	pulse-default.conf
 Source8:	a52.conf
 Source9:	speex.conf
+Patch0:         alsa-git.patch
 BuildRequires:	kernel-headers >= 2.4.0
 BuildRequires:	pkgconfig(alsa) >= %{version}
 BuildRequires:	pkgconfig(jack)
@@ -110,8 +111,7 @@ Conflicts:	%{libname} < 1.0.25-6
 This plugin supports Digital 5.1 AC3 emulation over S/PDIF (IEC958).
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -p1
 autoreconf -fi
 
 %build
@@ -120,10 +120,10 @@ export CFLAGS="$CFLAGS -DHAVE_STDINT_H"
 %configure \
 	--with-speex=lib
 
-%make LIBS='-pthread'
+%make_build LIBS='-pthread'
 
 %install
-%makeinstall_std mkdir_p="mkdir -p"
+%make_install mkdir_p="mkdir -p"
 
 install -d %{buildroot}%{_datadir}/alsa/pcm
 install -m644 %{SOURCE1} %{SOURCE2} %{SOURCE4} %{SOURCE5} %{SOURCE6} %{SOURCE9} %{buildroot}%{_datadir}/alsa/pcm
