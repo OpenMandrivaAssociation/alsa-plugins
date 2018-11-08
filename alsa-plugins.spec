@@ -172,7 +172,7 @@ fi
 %doc doc/README-pulse
 %{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
 %{_sysconfdir}/alsa/conf.d/50-pulseaudio.conf
-%{_datadir}/alsa/alsa.conf.d/50-pulseaudio.conf.example
+%{_datadir}/alsa/alsa.conf.d/99-pulseaudio.conf.example
 %{_libdir}/alsa-lib/libasound_module_pcm_pulse.so
 %{_libdir}/alsa-lib/libasound_module_ctl_pulse.so
 %{_libdir}/alsa-lib/libasound_module_conf_pulse.so
