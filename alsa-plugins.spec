@@ -2,20 +2,20 @@
 
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
-Version:	1.1.7
-Release:	2
+Version:	1.1.8
+Release:	1
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
 Url:		http://www.alsa-project.org
 Source0:	ftp://ftp.alsa-project.org/pub/plugins/%{name}-%{version}.tar.bz2
-Patch0:         alsa-git.patch
 BuildRequires:	kernel-headers >= 2.4.0
 BuildRequires:	pkgconfig(alsa) >= %{version}
 BuildRequires:	pkgconfig(jack)
 BuildRequires:	pkgconfig(libavcodec)
 BuildRequires:	pkgconfig(libpulse) >= 0.8
 BuildRequires:	pkgconfig(ncurses)
+BuildRequires:	pkgconfig(samplerate)
 BuildRequires:	pkgconfig(speex)
 BuildRequires:	pkgconfig(speexdsp)
 
@@ -136,6 +136,7 @@ fi
 %exclude %{_libdir}/alsa-lib/*_jack.so
 %exclude %{_libdir}/alsa-lib/*_a52.so
 %{_sysconfdir}/alsa/conf.d/10-rate-lav.conf
+%{_sysconfdir}/alsa/conf.d/10-samplerate.conf
 %{_sysconfdir}/alsa/conf.d/10-speexrate.conf
 %{_sysconfdir}/alsa/conf.d/50-arcam-av-ctl.conf
 %{_sysconfdir}/alsa/conf.d/50-oss.conf
@@ -144,6 +145,7 @@ fi
 %{_sysconfdir}/alsa/conf.d/60-vdownmix.conf
 %{_sysconfdir}/alsa/conf.d/98-usb-stream.conf
 %{_datadir}/alsa/alsa.conf.d/10-rate-lav.conf
+%{_datadir}/alsa/alsa.conf.d/10-samplerate.conf
 %{_datadir}/alsa/alsa.conf.d/10-speexrate.conf
 %{_datadir}/alsa/alsa.conf.d/50-arcam-av-ctl.conf
 %{_datadir}/alsa/alsa.conf.d/50-oss.conf
