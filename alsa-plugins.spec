@@ -3,7 +3,7 @@
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
 Version:	1.2.5
-Release:	1
+Release:	2
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
@@ -116,17 +116,8 @@ export CFLAGS="$CFLAGS -DHAVE_STDINT_H"
 %install
 %make_install mkdir_p="mkdir -p"
 
-# (cg) Include a configuration for when pulse is active
-install -d  %{buildroot}%{_sysconfdir}/sound/profiles/pulse
-ln -s %{_sysconfdir}/alsa/conf.d/99-pulseaudio-default.conf.example %{buildroot}%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
-
-%post -n %{libname}-pulseaudio
-# (cg) Check to see if the user has disabled pulse in the old style setup.
-if [ -f %{_sysconfdir}/alsa/pulse-default.conf ]; then
-  if grep -q "^#DRAKSOUND- " %{_sysconfdir}/alsa/pulse-default.conf; then
-    update-alternatives --set soundprofile %{_sysconfdir}/sound/profiles/alsa
-  fi
-fi
+# Activate pulseaudio by default
+mv %{buildroot}%{_sysconfdir}/alsa/conf.d/99-pulseaudio-default.conf.example %{buildroot}%{_sysconfdir}/alsa/conf.d/99-pulseaudio-default.conf
 
 %files doc
 %doc COPYING* doc/R* doc/*.txt
@@ -157,10 +148,9 @@ fi
 
 %files -n %{libname}-pulseaudio
 %doc doc/README-pulse
-%{_sysconfdir}/sound/profiles/pulse/alsa-default.conf
 %{_sysconfdir}/alsa/conf.d/50-pulseaudio.conf
 %{_datadir}/alsa/alsa.conf.d/50-pulseaudio.conf
-%{_sysconfdir}/alsa/conf.d/99-pulseaudio-default.conf.example
+%{_sysconfdir}/alsa/conf.d/99-pulseaudio-default.conf
 %{_libdir}/alsa-lib/libasound_module_pcm_pulse.so
 %{_libdir}/alsa-lib/libasound_module_ctl_pulse.so
 %{_libdir}/alsa-lib/libasound_module_conf_pulse.so
