@@ -3,8 +3,8 @@
 
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
-Version:	1.2.6
-Release:	3
+Version:	1.2.7.1
+Release:	1
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
