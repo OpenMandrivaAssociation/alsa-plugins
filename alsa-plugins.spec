@@ -1,10 +1,17 @@
 %global _empty_manifest_terminate_build 0
 %define libname %mklibname %{name}
 
+# 32-bit games may still want the alsa pulseaudio plugin
+%ifarch %{x86_64}
+%bcond_without compat32
+%else
+%bcond_with compat32
+%endif
+
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
 Version:	1.2.7.1
-Release:	1
+Release:	2
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
@@ -19,6 +26,16 @@ BuildRequires:	pkgconfig(ncurses)
 BuildRequires:	pkgconfig(samplerate)
 BuildRequires:	pkgconfig(speex)
 BuildRequires:	pkgconfig(speexdsp)
+%if %{with compat32}
+BuildRequires:	devel(libasound)
+BuildRequires:	devel(libjack)
+BuildRequires:	devel(libavcodec)
+BuildRequires:	devel(libpulse)
+BuildRequires:	devel(libncurses)
+BuildRequires:	devel(libsamplerate)
+BuildRequires:	devel(libspeex)
+BuildRequires:	devel(libspeexdsp)
+%endif
 
 %description
 Advanced Linux Sound Architecture (ALSA) utilities. Modularized architecture
@@ -102,20 +119,52 @@ Conflicts:	%{libname} < 1.0.25-6
 %description -n %{libname}-a52
 This plugin supports Digital 5.1 AC3 emulation over S/PDIF (IEC958).
 
+%if %{with compat32}
+%package 32bit
+Summary:	32-bit version of ALSA plugins
+Group:		System/Libraries
+
+%description 32bit
+32-bit version of ALSA plugins
+
+%files 32bit
+%{_prefix}/lib/alsa-lib
+%endif
+
 %prep
 %autosetup -p1
 autoreconf -fi
 
-%build
+export CONFIGURE_TOP="$(pwd)"
+
+%if %{with compat32}
+mkdir build32
+cd build32
+%configure32
+cd ..
+%endif
+
 # (tpg) fix compilation with speexdsp
+mkdir build
+cd build
 export CFLAGS="$CFLAGS -DHAVE_STDINT_H"
 %configure \
 	--with-speex=lib
 
-%make_build LIBS='-pthread'
+
+%build
+%if %{with compat32}
+%make_build -C build32
+%endif
+
+%make_build -C build LIBS='-pthread'
 
 %install
-%make_install mkdir_p="mkdir -p"
+%if %{with compat32}
+%make_install mkdir_p="mkdir -p" -C build32
+%endif
+
+%make_install mkdir_p="mkdir -p" -C build
 
 # Activate pulseaudio by default
 mv %{buildroot}%{_sysconfdir}/alsa/conf.d/99-pulseaudio-default.conf.example %{buildroot}%{_sysconfdir}/alsa/conf.d/99-pulseaudio-default.conf
