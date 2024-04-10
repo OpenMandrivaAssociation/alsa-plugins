@@ -17,6 +17,7 @@ License:	GPLv2+ and LGPLv2+
 Group:		Sound
 Url:		http://www.alsa-project.org
 Source0:	ftp://ftp.alsa-project.org/pub/plugins/%{name}-%{version}.tar.bz2
+Patch0:		alsa-plugins-ffmpeg-7.0.patch
 BuildRequires:	kernel-headers >= 2.4.0
 BuildRequires:	pkgconfig(alsa) >= %{version}
 BuildRequires:	pkgconfig(jack)

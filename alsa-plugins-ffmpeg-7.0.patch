@@ -1,0 +1,60 @@
+diff -up alsa-plugins-1.2.7.1/a52/pcm_a52.c.omv~ alsa-plugins-1.2.7.1/a52/pcm_a52.c
+--- alsa-plugins-1.2.7.1/a52/pcm_a52.c.omv~	2024-04-10 11:07:14.179102619 +0200
++++ alsa-plugins-1.2.7.1/a52/pcm_a52.c	2024-04-10 11:12:46.242444510 +0200
+@@ -669,13 +669,13 @@ static void set_channel_layout(snd_pcm_i
+ 	struct a52_ctx *rec = io->private_data;
+ 	switch (io->channels) {
+ 	case 2:
+-		rec->avctx->channel_layout = AV_CH_LAYOUT_STEREO;
++		rec->avctx->ch_layout.u.mask = AV_CH_LAYOUT_STEREO;
+ 		break;
+ 	case 4:
+-		rec->avctx->channel_layout = AV_CH_LAYOUT_QUAD;
++		rec->avctx->ch_layout.u.mask = AV_CH_LAYOUT_QUAD;
+ 		break;
+ 	case 6:
+-		rec->avctx->channel_layout = AV_CH_LAYOUT_5POINT1;
++		rec->avctx->ch_layout.u.mask = AV_CH_LAYOUT_5POINT1;
+ 		break;
+ 	default:
+ 		break;
+@@ -695,8 +695,8 @@ static int alloc_input_buffer(snd_pcm_io
+ 	rec->frame->nb_samples = rec->avctx->frame_size;
+ #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(58, 91, 0)
+ 	rec->frame->format = rec->avctx->sample_fmt;
+-	rec->frame->channels = rec->avctx->channels;
+-	rec->frame->channel_layout = rec->avctx->channel_layout;
++	rec->frame->ch_layout.nb_channels = rec->avctx->ch_layout.nb_channels;
++	rec->frame->ch_layout.u.mask = rec->avctx->ch_layout.u.mask;
+ 	if (av_frame_get_buffer(rec->frame, 0))
+ 		return -ENOMEM;
+ #else
+@@ -731,7 +731,7 @@ static int a52_prepare(snd_pcm_ioplug_t
+ 
+ 	rec->avctx->bit_rate = rec->bitrate * 1000;
+ 	rec->avctx->sample_rate = io->rate;
+-	rec->avctx->channels = io->channels;
++	rec->avctx->ch_layout.nb_channels = io->channels;
+ 	rec->avctx->sample_fmt = rec->av_format;
+ 
+ 	set_channel_layout(io);
+diff -up alsa-plugins-1.2.7.1/rate-lav/rate_lavrate.c.omv~ alsa-plugins-1.2.7.1/rate-lav/rate_lavrate.c
+--- alsa-plugins-1.2.7.1/rate-lav/rate_lavrate.c.omv~	2024-04-10 11:13:23.446818935 +0200
++++ alsa-plugins-1.2.7.1/rate-lav/rate_lavrate.c	2024-04-10 11:57:31.796512038 +0200
+@@ -95,10 +95,12 @@ static int pcm_src_init(void *obj, snd_p
+ 		if (!rate->avr)
+ 			return -ENOMEM;
+ 
+-		av_opt_set_channel_layout(rate->avr, "in_channel_layout",
+-					  av_get_default_channel_layout(rate->channels), 0);
+-		av_opt_set_channel_layout(rate->avr, "out_channel_layout",
+-					  av_get_default_channel_layout(rate->channels), 0);
++		AVChannelLayout l;
++		av_channel_layout_default(&l, rate->channels);
++		av_opt_set_chlayout(rate->avr, "in_channel_layout",
++				    &l, 0);
++		av_opt_set_chlayout(rate->avr, "out_channel_layout",
++				    &l, 0);
+ 		av_opt_set_int(rate->avr, "in_sample_rate", rate->in_rate, 0);
+ 		av_opt_set_int(rate->avr, "out_sample_rate", rate->out_rate, 0);
+ 		fmt = support_multi_format(rate) ? info->in.format : SND_PCM_FORMAT_S16;
