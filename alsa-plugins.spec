@@ -15,7 +15,7 @@ Release:	1
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
-Url:		http://www.alsa-project.org
+Url:		https://www.alsa-project.org
 Source0:	ftp://ftp.alsa-project.org/pub/plugins/%{name}-%{version}.tar.bz2
 
 BuildRequires:	kernel-headers >= 2.4.0
