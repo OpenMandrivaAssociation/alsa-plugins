@@ -11,12 +11,13 @@
 Summary:	Advanced Linux Sound Architecture (ALSA) plugins
 Name:		alsa-plugins
 Version:	1.2.12
-Release:	5
+Release:	6
 # All packages are LGPLv2+ with the exception of samplerate which is GPLv2+
 License:	GPLv2+ and LGPLv2+
 Group:		Sound
 Url:		https://www.alsa-project.org
 Source0:	ftp://ftp.alsa-project.org/pub/plugins/%{name}-%{version}.tar.bz2
+Patch0:	alsa-plugins-1.2.12-ffmpeg9-sample-fmts.patch
 
 BuildRequires:	autoconf
 BuildRequires:	automake
